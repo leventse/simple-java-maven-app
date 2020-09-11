@@ -1,8 +1,7 @@
 pipeline {
     agent {
        node{
-           def dockerHome = tool 'docker'
-           env.PATH = "${dockerHome}/bin:${env.PATH}"
+           
            docker {
                image 'maven:3-alpine'
                args '-v /root/.m2:/root/.m2'
@@ -12,6 +11,10 @@ pipeline {
     stages {
         stage('Initialize'){
              steps{
+                 script{
+                    def dockerHome = tool 'docker'
+                    env.PATH = "${dockerHome}/bin:${env.PATH}"
+                 }
                 sh "cd ${dockerHome}/bin/ service docker start"
             }
         }
